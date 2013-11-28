@@ -211,3 +211,10 @@
   "Makes filter function from :filter descriptions."
   [expr]
   (eval (transform-filter expr)))
+
+(defn read-path-map
+  "Converts path-map from (more readable) format in project.clj to
+  format that works with replace-map."
+  [v]
+  (map #(vector (first %) (nth % 2))
+       (partition 3 v)))

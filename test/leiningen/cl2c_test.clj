@@ -27,3 +27,10 @@
            "dir/match-no-me.hic"])
   => ["dir/match-me.cl2"
       "dir/match-me.hic"])
+
+(facts "path-map read test"
+  (read-path-map ["foo" => "bar",
+                  "boo" => "bha"])
+  =>
+  [["foo" "bar"]
+   ["boo" "bha"]])
