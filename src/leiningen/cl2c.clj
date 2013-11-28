@@ -112,3 +112,14 @@
    (format (str (style "Error: " :red) " Timeout compiling %s")
            input))
   :FAILED)
+
+(defn cl2->js
+  "Compiles .cl2 source file to javascript code (string)"
+  [input]
+  (str
+   (when *timestamp*
+     (eval `(js (console.log "Script compiled at: "
+                             ~(timestamp)))))
+   (if *strategy*
+     (compile-with-states input *strategy*)
+     (bare-compile input))))
