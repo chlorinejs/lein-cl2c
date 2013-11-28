@@ -206,3 +206,8 @@
                          `(re-find (re-pattern ~x) ~'s)
                          x))
                expr)))
+
+(defn make-filter
+  "Makes filter function from :filter descriptions."
+  [expr]
+  (eval (transform-filter expr)))
