@@ -182,3 +182,17 @@
     (if (= 0 failures)
       (set-terminal-title (format "✔ %d files compiled" total))
       (set-terminal-title (format "%d/%d ✘" failures total)))))
+
+(defn filter-files
+  "Find files matching given filter function."
+  [root dirs file-filter]
+  (let [root (io/file root)
+        dirs (map #(io/file root %) dirs)]
+    (mapcat
+     (fn [dir]
+       (->> dir
+            file-seq
+            (map #(.getAbsolutePath %))
+            (map #(relativize (.getAbsolutePath root) %))
+            (filter file-filter)))
+     dirs)))
