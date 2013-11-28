@@ -148,3 +148,28 @@
   "Delete output files when their source files are deleted."
   [f]
   (.delete (io/file (output-file-for f *path-map*))))
+
+(defn compile-one [file]
+  (let [input (.getAbsolutePath (io/file file))
+        output (io/file (output-file-for input *path-map*))]
+    (info :timestamp timestamp)
+    (info :compile input)
+
+    (try+
+     (ensure-parent-dir output)
+     (spit output
+           (with-timeout *timeout*
+             ;; determine source type: hiccup or chlorine?
+             (if (.endsWith input ".cl2")
+               (cl2->js input)
+               (hic->html input))))
+     (println (style "Done!" :green))
+     :PASSED
+     (catch map? e
+       (handle-known-exception e input))
+
+     (catch java.util.concurrent.TimeoutException e
+       (handle-timeout-exception e input))
+
+     (catch Throwable e
+       (handle-unknown-exception e input)))))
