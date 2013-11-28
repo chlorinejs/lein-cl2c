@@ -143,3 +143,8 @@
   [f]
   (when-not (.isDirectory (.getParentFile f))
     (.mkdirs (.getParentFile f))))
+
+(defn delete-output
+  "Delete output files when their source files are deleted."
+  [f]
+  (.delete (io/file (output-file-for f *path-map*))))
