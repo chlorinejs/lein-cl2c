@@ -233,3 +233,10 @@
                                         (read-path-map (:path-map ~m)))]
      ~@body))
 
+(defn build-once [root build]
+  (let [file-filter (make-filter
+                     (concat '(and (or ".+\\.cl2$"  ".+\\.hic$"))
+                             [(:filter build)]))
+        files (filter-files root (:watch build) file-filter)]
+    (println "Files:" files)
+    (compile-files files)))
