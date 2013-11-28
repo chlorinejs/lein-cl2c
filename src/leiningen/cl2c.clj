@@ -50,3 +50,10 @@
   "Generate .html and .js file names from .hic and .cl2 ones."
   [input-file path-map]
   (replace-map input-file path-map))
+
+(defn bare-compile
+  "Compiles a file without using pre-compiled states."
+  [file]
+  (binding [*temp-sym-count* (ref 999)
+            *macros*         (ref {})]
+    (tojs' file)))
