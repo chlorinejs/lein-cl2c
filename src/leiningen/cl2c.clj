@@ -57,3 +57,9 @@
   (binding [*temp-sym-count* (ref 999)
             *macros*         (ref {})]
     (tojs' file)))
+
+(defn set-terminal-title
+  "Sets title of current terminal window."
+  [new-title]
+  (printf "%s]2;%s%s" (char 27) new-title (char 7))
+  (println))
