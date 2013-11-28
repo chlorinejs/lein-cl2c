@@ -218,3 +218,18 @@
   [v]
   (map #(vector (first %) (nth % 2))
        (partition 3 v)))
+
+(defmacro with-build-options
+  "Binding compiler-specific dynamic vars with value from build
+   parameters."
+  [m & body]
+  `(binding [*print-pretty*     (= :pretty (:optimizations ~m))
+             *symbol-map*       (or (:symbol-map   ~m) *symbol-map*)
+             *timeout*          (or (:timeout ~m)      *timeout*)
+             *paths*            (or (:paths ~m) [])
+             *strategy*         (:strategy ~m)
+             *path-map*         (concat [[#".cl2$" ".js"]
+                                         [#".hic$" ".html"]]
+                                        (read-path-map (:path-map ~m)))]
+     ~@body))
+
