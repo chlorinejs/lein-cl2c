@@ -123,3 +123,17 @@
    (if *strategy*
      (compile-with-states input *strategy*)
      (bare-compile input))))
+
+(defn hic->html
+  "Compiles .hic source file to HTML code (string)"
+  [input]
+  (let [content (-> input
+                    slurp
+                    read-string)]
+    (str (when (or (and (list? content)
+                        (vector? (first content))
+                        (= :html (ffirst content)))
+                   (and (vector?  content)
+                        (= :html (first content))))
+           "<!DOCTYPE html>")
+         (html content))))
