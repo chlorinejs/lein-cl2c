@@ -268,3 +268,6 @@
         (when (= :deleted kind)
           (println "Deleting output file for " file)
           (delete-output file))))))
+
+(defn print-manual-rerun-guide []
+  (println "Press [Enter] to rerun builds."))
