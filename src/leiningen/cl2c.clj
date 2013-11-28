@@ -271,3 +271,10 @@
 
 (defn print-manual-rerun-guide []
   (println "Press [Enter] to rerun builds."))
+
+(defn once [project & build-names]
+  (println "Builds: " build-names)
+  (doseq [[bname build] (select-builds (:cl2c project) build-names)]
+    (with-build-options build
+      (println "Building" bname)
+      (build-once (:root project) build))))
