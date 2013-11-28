@@ -240,3 +240,15 @@
         files (filter-files root (:watch build) file-filter)]
     (println "Files:" files)
     (compile-files files)))
+
+(defn select-builds
+  "Filters builds defined in project.clj with build names given
+  in command-line arguments. If no argument was given, returns
+  all found builds."
+  [all-builds build-names]
+  (if (seq build-names)
+    ;; if some build names are given, keywordize them
+    ;; and find in project.clj
+    (select-keys all-builds (map keyword build-names))
+    ;; no build specified? -> build them all
+    all-builds))
