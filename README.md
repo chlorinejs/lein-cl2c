@@ -2,6 +2,8 @@
 
 Leiningen plugin to compile ChlorineJS to Javascript and Hiccup to HTML.
 
+[![Build Status](https://travis-ci.org/chlorinejs/lein-cl2c.png?branch=master)](https://travis-ci.org/chlorinejs/lein-cl2c)
+
 ## Installation
 
 ### Clojars
