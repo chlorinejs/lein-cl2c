@@ -9,7 +9,8 @@
                  [core-cl2 "0.9.0-SNAPSHOT"]
                  [pathetic "0.5.1"]
                  [fs "1.3.2"]]
-  :profiles {:dev {:dependencies [[midje "1.5.1"]]}}
+  :profiles {:dev {:dependencies [[midje "1.5.1"]
+                                  [lein-midje "3.0.1"]]}}
   :cl2c {:named-build
          { ;; where to check for changes?
           :watch ["src-cl2", "test-cl2", "node_modules"]
