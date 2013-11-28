@@ -43,3 +43,15 @@
                       (or "src-cl2/" "test-cl2/"))))
   =>
   '("src-cl2/foo.cl2" "src-cl2/foo.hic" "test-cl2/foo_test.cl2"))
+
+(facts "hic->html test"
+  (hic->html (io/file "src-cl2/foo.hic"))
+  =>
+  "<a href=\"yay.html\">yooloo</a>")
+
+(facts "cl2->js test"
+  (binding [u/*cwd* (pwd)
+            u/*paths* ["node_modules/"]]
+    (cl2->js "src-cl2/foo.cl2"))
+  =>
+  " println(\"Hello include\"); println(\"hello\", _plus(3, 4));")
