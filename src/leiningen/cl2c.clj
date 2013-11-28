@@ -63,3 +63,20 @@
   [new-title]
   (printf "%s]2;%s%s" (char 27) new-title (char 7))
   (println))
+
+;; A simple console logger
+(defmulti info (fn [& xs] (first xs)))
+
+(defmethod info :compile
+  [_ input]
+  (println (format "Compiling %s..." (style input :underline))))
+
+(defmethod info :error
+  [_ input]
+  (println (format (str (style "Error: " :red) " compiling %s")
+                   input)))
+
+(defmethod info :timestamp
+  [_ timestamp]
+  (print "\n" (style (timestamp) :magenta) " "))
+
