@@ -137,3 +137,9 @@
                         (= :html (first content))))
            "<!DOCTYPE html>")
          (html content))))
+
+(defn ensure-parent-dir
+  "Creates parent directories if necessary."
+  [f]
+  (when-not (.isDirectory (.getParentFile f))
+    (.mkdirs (.getParentFile f))))
