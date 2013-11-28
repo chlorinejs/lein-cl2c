@@ -45,3 +45,8 @@
       (str
        (:inclusion state) "\n\n"
        (tojs' f)))))
+
+(defn output-file-for
+  "Generate .html and .js file names from .hic and .cl2 ones."
+  [input-file path-map]
+  (replace-map input-file path-map))
