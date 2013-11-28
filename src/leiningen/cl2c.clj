@@ -173,3 +173,12 @@
 
      (catch Throwable e
        (handle-unknown-exception e input)))))
+
+(defn compile-files [files]
+  (set-terminal-title "Compiling files...")
+  (let [status (map compile-one files)
+        total (count status)
+        failures (count (filter #(= :FAILED %) status))]
+    (if (= 0 failures)
+      (set-terminal-title (format "✔ %d files compiled" total))
+      (set-terminal-title (format "%d/%d ✘" failures total)))))
