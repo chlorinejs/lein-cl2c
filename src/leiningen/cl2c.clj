@@ -80,3 +80,17 @@
   [_ timestamp]
   (print "\n" (style (timestamp) :magenta) " "))
 
+(defn handle-known-exception
+  "Handles known exception, returns :FAILED for final user report."
+  [e input]
+  (info :error input)
+  (println (style (:msg e) :blue))
+  (doseq [i (range (count (:causes e)))
+          :let [cause (nth (:causes e) i)]]
+    (print (apply str (repeat (inc i) "  ")))
+    (println "caused by " (style cause :yellow)))
+  (when-let [trace (:trace e)]
+    (print-cause-trace
+     trace
+     (if *verbose* 10 3)))
+  :FAILED)
