@@ -94,3 +94,13 @@
      trace
      (if *verbose* 10 3)))
   :FAILED)
+
+(defn handle-unknown-exception
+  "Handles unknown exception, returns :FAILED for final user report."
+  [e input]
+  (println
+   (format (str (style "Unknown error: " :red) " compiling %s")
+           input))
+  (print-cause-trace
+   e (if *verbose* 10 3))
+  :FAILED)
