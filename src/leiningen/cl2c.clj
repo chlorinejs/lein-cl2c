@@ -17,3 +17,14 @@
 (def ^:dynamic *path-map* nil)
 (def ^:dynamic *strategy* nil)
 (def ^:dynamic *timestamp* false)
+
+(defn gen-state
+  "Compiles a pre-defined Chlorine strategy, returns that state"
+  [strategy]
+  (binding [*temp-sym-count* (ref 999)
+            *macros*         (ref {})]
+    (let [inclusion (eval `(js (load-file
+                                ~(str "r:/strategies/" strategy ".cl2"))))]
+      {:temp-sym-count @*temp-sym-count*
+       :macros @*macros*
+       :inclusion inclusion})))
