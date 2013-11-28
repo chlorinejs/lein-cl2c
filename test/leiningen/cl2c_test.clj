@@ -36,13 +36,15 @@
    ["boo" "bha"]])
 
 (facts "filter-files test"
-  (filter-files
-   (pwd)
-   ["src-cl2/" "test-cl2/"]
-   (make-filter '(and (or ".+\\.cl2$"  ".+\\.hic$")
-                      (or "src-cl2/" "test-cl2/"))))
+  (-> (pwd)
+      (filter-files
+
+       ["src-cl2/" "test-cl2/"]
+       (make-filter '(and (or ".+\\.cl2$"  ".+\\.hic$")
+                          (or "src-cl2/" "test-cl2/"))))
+      set)
   =>
-  '("src-cl2/foo.cl2" "src-cl2/foo.hic" "test-cl2/foo_test.cl2"))
+  #{"src-cl2/foo.cl2" "src-cl2/foo.hic" "test-cl2/foo_test.cl2"})
 
 (facts "hic->html test"
   (hic->html (io/file "src-cl2/foo.hic"))
