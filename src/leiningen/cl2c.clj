@@ -104,3 +104,11 @@
   (print-cause-trace
    e (if *verbose* 10 3))
   :FAILED)
+
+(defn handle-timeout-exception
+  "Handles timeout exception, returns :FAILED for final user report."
+  [e input]
+  (println
+   (format (str (style "Error: " :red) " Timeout compiling %s")
+           input))
+  :FAILED)
