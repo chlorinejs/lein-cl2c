@@ -196,3 +196,13 @@
             (map #(relativize (.getAbsolutePath root) %))
             (filter file-filter)))
      dirs)))
+
+(defn transform-filter
+  "Transforms brief :filter descriptions in project.clj into
+  runnable Clojure code."
+  [expr]
+  `(fn [~'s]
+     ~(postwalk (fn [x] (if (string? x)
+                         `(re-find (re-pattern ~x) ~'s)
+                         x))
+               expr)))
