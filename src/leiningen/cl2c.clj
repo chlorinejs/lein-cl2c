@@ -28,3 +28,10 @@
       {:temp-sym-count @*temp-sym-count*
        :macros @*macros*
        :inclusion inclusion})))
+
+(def ^{:doc "Pre-compiles Chlorine strategies once
+  and saves states to this var."}
+  prelude
+  {"dev"  (gen-state "dev")
+   "prod" (gen-state "prod")
+   "prod-compat" (gen-state "prod-compat")})
