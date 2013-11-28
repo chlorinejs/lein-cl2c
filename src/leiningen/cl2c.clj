@@ -292,3 +292,9 @@
         (when (read-line)
           (apply once project build-names)
           (print-manual-rerun-guide))))))
+
+(defn cl2c
+  "Compile chlorine/hiccup sources to javascript/html files."
+  [project & args]
+  (cond (= (first args) "once") (apply once project (rest args))
+        (= (first args) "auto") (apply auto project (rest args))))
