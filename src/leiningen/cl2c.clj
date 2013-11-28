@@ -278,3 +278,17 @@
     (with-build-options build
       (println "Building" bname)
       (build-once (:root project) build))))
+
+(defn auto [project & build-names]
+  (apply once project build-names)
+  (print-manual-rerun-guide)
+  (doseq [[bname build] (select-builds (:cl2c project) build-names)]
+    (with-build-options build
+      (apply
+       watch
+       (make-watcher-fn (:root project) build)
+       (:watch build))
+      (while true
+        (when (read-line)
+          (apply once project build-names)
+          (print-manual-rerun-guide))))))
