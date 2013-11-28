@@ -35,3 +35,13 @@
   {"dev"  (gen-state "dev")
    "prod" (gen-state "prod")
    "prod-compat" (gen-state "prod-compat")})
+
+(defn compile-with-states
+  "Compiles a file using pre-compiled states."
+  [f state-name]
+  (let [state (get prelude state-name)]
+    (binding [*temp-sym-count*  (ref (:temp-sym-count state))
+              *macros*          (ref (:macros state))]
+      (str
+       (:inclusion state) "\n\n"
+       (tojs' f)))))
