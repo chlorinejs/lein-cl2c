@@ -252,3 +252,19 @@
     (select-keys all-builds (map keyword build-names))
     ;; no build specified? -> build them all
     all-builds))
+
+(defn make-watcher-fn
+  "Makes a watcher function that can be passed to filevents.core/watch."
+  [root build]
+  (fn [kind file]
+    (let [file (relativize
+                root
+                (.getAbsolutePath file))
+          file-filter (make-filter
+                       (concat '(and (or ".+\\.cl2$"  ".+\\.hic$"))
+                               [(:filter build)]))]
+      (when (file-filter file)
+        (build-once root build)
+        (when (= :deleted kind)
+          (println "Deleting output file for " file)
+          (delete-output file))))))
