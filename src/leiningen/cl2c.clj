@@ -1,6 +1,7 @@
 (ns leiningen.cl2c
   (:require [clojure.walk :refer [postwalk]]
             [clojure.java.io :as io]
+            [chlorine.reader :refer [sexp-reader]]
             [pathetic.core :refer [relativize]]
             [chlorine.js :refer :all]
             [slingshot.slingshot :refer :all]
@@ -127,16 +128,19 @@
 (defn hic->html
   "Compiles .hic source file to HTML code (string)"
   [input]
-  (let [content (-> input
-                    slurp
-                    read-string)]
-    (str (when (or (and (list? content)
-                        (vector? (first content))
-                        (= :html (ffirst content)))
-                   (and (vector?  content)
-                        (= :html (first content))))
-           "<!DOCTYPE html>")
-         (html content))))
+  (with-out-str
+    (with-open [in (sexp-reader input)]
+      (loop [expr (read in false :eof)]
+        (when (not= expr :eof)
+          (when (or (and (list? expr)
+                         (vector? (first expr))
+                         (= :html (ffirst expr)))
+                    (and (vector?  expr)
+                         (= :html (first expr))))
+            (print "<!DOCTYPE html>"))
+          (when-let [s (html expr)]
+            (print s))
+          (recur (read in false :eof)))))))
 
 (defn ensure-parent-dir
   "Creates parent directories if necessary."
