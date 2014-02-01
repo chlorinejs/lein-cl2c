@@ -88,8 +88,8 @@
      (eval `(js (console.log "Script compiled at: "
                              ~(timestamp)))))
    (if *strategy*
-     (compile-with-states input *strategy*)
-     (bare-compile input))))
+     (compile-file-with-states *strategy* input)
+     (compile-file-with-states "bare" input))))
 
 (defn hic->html
   "Compiles .hic source file to HTML code (string)"
