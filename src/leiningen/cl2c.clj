@@ -4,6 +4,7 @@
             [chlorine.reader :refer [sexp-reader]]
             [pathetic.core :refer [relativize]]
             [chlorine.js :refer :all]
+            [chlorine.prelude :refer [compile-file-with-states]]
             [slingshot.slingshot :refer :all]
             [fs.core :as fs]
             [chlorine.util :refer [replace-map with-timeout timestamp
