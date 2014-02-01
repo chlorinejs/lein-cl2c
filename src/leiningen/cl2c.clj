@@ -20,45 +20,10 @@
 (def ^:dynamic *strategy* nil)
 (def ^:dynamic *timestamp* false)
 
-(defn gen-state
-  "Compiles a pre-defined Chlorine strategy, returns that state"
-  [strategy]
-  (binding [*temp-sym-count* (ref 999)
-            *macros*         (ref {})]
-    (let [inclusion (eval `(js (load-file
-                                ~(str "r:/strategies/" strategy ".cl2"))))]
-      {:temp-sym-count @*temp-sym-count*
-       :macros @*macros*
-       :inclusion inclusion})))
-
-(def ^{:doc "Pre-compiles Chlorine strategies once
-  and saves states to this var."}
-  prelude
-  {"dev"  (gen-state "dev")
-   "prod" (gen-state "prod")
-   "prod-compat" (gen-state "prod-compat")})
-
-(defn compile-with-states
-  "Compiles a file using pre-compiled states."
-  [f state-name]
-  (let [state (get prelude state-name)]
-    (binding [*temp-sym-count*  (ref (:temp-sym-count state))
-              *macros*          (ref (:macros state))]
-      (str
-       (:inclusion state) "\n\n"
-       (tojs' f)))))
-
 (defn output-file-for
   "Generate .html and .js file names from .hic and .cl2 ones."
   [input-file path-map]
   (replace-map input-file path-map))
-
-(defn bare-compile
-  "Compiles a file without using pre-compiled states."
-  [file]
-  (binding [*temp-sym-count* (ref 999)
-            *macros*         (ref {})]
-    (tojs' file)))
 
 (defn set-terminal-title
   "Sets title of current terminal window."
