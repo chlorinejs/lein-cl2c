@@ -5,8 +5,7 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[filevents "0.1.0"]
                  [myguidingstar/clansi "1.3.0"]
-                 [chlorine "1.6.4-SNAPSHOT"]
-                 [core-cl2 "0.9.0-SNAPSHOT"]
+                 [chlorine/prelude "0.1.0-SNAPSHOT"]
                  [pathetic "0.5.1"]
                  [fs "1.3.2"]]
   :profiles {:dev {:dependencies [[midje "1.5.1"]
